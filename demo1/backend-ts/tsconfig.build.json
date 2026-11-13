@@ -1,0 +1,17 @@
+{
+  // 编译构建用(npm run build): 只编译源码,测试文件不输出到dist
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    // TS编译后的JS文件将输出到此目录
+    "outDir": "dist",
+    // 编译时会以此目录为基准,保留内部目录结构输出到outDir
+    "rootDir": "src"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/**/*.test.ts"
+  ]
+}

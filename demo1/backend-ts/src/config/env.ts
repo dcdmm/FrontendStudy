@@ -9,8 +9,9 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
-export function loadEnv(): Env {
-  const result = envSchema.safeParse(process.env);
+// 默认读取 process.env;测试时可以直接传入一个对象,不用修改真实的环境变量
+export function loadEnv(source: Record<string, string | undefined> = process.env): Env {
+  const result = envSchema.safeParse(source);
   if (!result.success) {
     throw new Error(`环境变量配置错误:\n${z.prettifyError(result.error)}`);
   }

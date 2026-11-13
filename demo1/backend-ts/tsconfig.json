@@ -1,13 +1,11 @@
 {
+  // 类型检查用(编辑器、npm run type-check): 源码和测试都检查,不输出文件
+  // 编译构建用的是 tsconfig.build.json
   "compilerOptions": {
     "target": "ES2022",
     // Node原生ESM规则: 相对导入必须写.js后缀,漏写时编译就会报错(而不是运行时才报错)
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    // TS编译后的JS文件将输出到此目录
-    "outDir": "dist",
-    // 编译时会以此目录为基准,保留内部目录结构输出到outDir
-    "rootDir": "src",
     "strict": true,
     "types": [
       "node"
@@ -15,9 +13,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": [
-    "src"
+    "src",
+    "tests"
   ]
 }
