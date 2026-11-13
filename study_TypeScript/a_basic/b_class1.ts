@@ -1,7 +1,7 @@
 class Person {
     public name: string;  // A public member can be accessed anywhere(默认)
-    private age: number; // protected members are only visible to subclasses of the class they’re declared in.
-    protected id: string; // private is like protected, but doesn’t allow access to the member even from subclasses:
+    protected id: string; // protected members are only visible to subclasses of the class they’re declared in
+    private age: number; // private is like protected, but doesn’t allow access to the member even from subclasses
 
     constructor(name: string, age: number, id: string) {
         this.name = name;
