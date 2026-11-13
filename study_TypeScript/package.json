@@ -1,0 +1,8 @@
+{
+  "name": "study_typescript",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "tsx": "^4.23.15"
+  }
+}

@@ -76,9 +76,13 @@ let obj = { name: '张三' };
 
 let nn: null = null
 console.log(typeof nn) // print->object(不能通过typeof判别是否为null)
-console.log(nn == null) // print->true(只能通过`== null`判别是否为null)
+console.log(nn === null) // print->true(精确判断null用`=== null`)
+// `== null`对null和undefined都返回true,用来一次性判断"null或undefined"
+let un: undefined = undefined
+console.log(un == null) // print->true(undefined也被当成null)
+console.log(un === null) // print->false
 if (!nn) {
-    console.log("null是假值")
+    console.log("null是`假值`")
 }
 
 
