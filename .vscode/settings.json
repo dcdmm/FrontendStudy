@@ -1,4 +1,11 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:venv",
-    "python-envs.defaultPackageManager": "ms-python.python:pip"
+    "python-envs.defaultPackageManager": "ms-python.python:pip",
+    // 文件折叠: xxx.test.ts收在xxx.ts下面,点开才显示
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.test.ts",
+        "*.tsx": "${capture}.test.tsx"
+    }
 }
