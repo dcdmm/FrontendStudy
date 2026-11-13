@@ -95,3 +95,12 @@ html, body, #root {
 }
 
 .composer button:disabled { background: #c7c7cc; cursor: not-allowed; }
+
+.msg .content.error { background: #fff0f0; color: #d70015; }
+
+.notice {
+  padding: 8px 20px;
+  background: #fff8e6;
+  color: #8a5a00;
+  font-size: 13px;
+}

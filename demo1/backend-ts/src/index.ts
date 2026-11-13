@@ -1,60 +1,17 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
 import { serve } from '@hono/node-server';
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
-import { streamSSE } from 'hono/streaming';
-import { HTTPException } from 'hono/http-exception';
-import OpenAI from 'openai';
+import { createApp } from './app.js';
+import { loadEnv } from './config/env.js';
+import { loadModels } from './config/models.js';
+import { createLlmService } from './services/llm.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const MODELS_PATH = resolve(__dirname, '../../models.json');
-const { default: DEFAULT_MODEL, models: MODELS } = JSON.parse(
-  readFileSync(MODELS_PATH, 'utf-8'),
-).openrouter as { default: string; models: string[] };
+// 入口: 读取配置 → 创建依赖 → 组装app → 启动服务器
+const env = loadEnv();
 
-const PORT = Number(process.env.OPENROUTER_PORT ?? 8787);
-const BASE_URL = process.env.OPENROUTER_BASE_URL ?? 'https://openrouter.ai/api/v1';
-
-const client = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: BASE_URL,
+const app = createApp({
+  models: loadModels(),
+  llm: createLlmService({ apiKey: env.OPENROUTER_API_KEY, baseURL: env.OPENROUTER_BASE_URL }),
 });
 
-type ChatMessage = { role: 'user' | 'assistant' | 'system'; content: string };
-type ChatRequest = { messages: ChatMessage[]; model?: string };
-
-const app = new Hono();
-
-app.use('/*', cors());
-
-app.get('/models', (c) => c.json({ models: MODELS, default: DEFAULT_MODEL }));
-
-app.post('/chat', async (c) => {
-  const { messages, model } = await c.req.json<ChatRequest>();
-  const chosen = model ?? DEFAULT_MODEL;
-  if (!MODELS.includes(chosen)) {
-    throw new HTTPException(400, { message: `model ${chosen} not in allow-list` });
-  }
-
-  const completion = await client.responses.create({
-    model: chosen,
-    input: messages,
-    stream: true,
-  });
-
-  return streamSSE(c, async (s) => {
-    const emit = (event: string, data: unknown) =>
-      s.writeSSE({ event, data: JSON.stringify(data) });
-
-    for await (const event of completion) {
-      if (event.type === 'response.output_text.delta' && event.delta) {
-        await emit('delta', { text: event.delta });
-      }
-    }
-  });
+serve({ fetch: app.fetch, port: env.OPENROUTER_PORT }, (info) => {
+  console.log(`[backend-ts] listening on http://localhost:${info.port}`);
 });
-
-serve({ fetch: app.fetch, port: PORT });
-console.log(`[backend-ts] listening on http://localhost:${PORT}`);
