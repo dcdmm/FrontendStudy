@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchModels } from '../api/models';
-import type { BackendKey } from '../config/backends';
-import { getErrorMessage } from '../utils/error';
+import type { BackendKey } from '@/shared/config/backends';
+import { getErrorMessage } from '@/shared/utils/error';
 
 // 切换后端时重新加载模型列表,并选中默认模型
 export function useModels(backend: BackendKey) {

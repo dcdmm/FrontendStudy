@@ -18,7 +18,13 @@
     "noEmit": true,
     "types": [
       "vite/client"
-    ]
+    ],
+    // 路径别名: @/ 代表 src/(vite.config.ts 里也要配置同样的别名)
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "src"

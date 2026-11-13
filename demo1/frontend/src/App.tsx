@@ -1,12 +1,9 @@
 import { useState } from 'react';
-import { ChatHeader } from './components/ChatHeader';
-import { Composer } from './components/Composer';
-import { MessageList } from './components/MessageList';
-import type { BackendKey } from './config/backends';
-import { useChat } from './hooks/useChat';
-import { useModels } from './hooks/useModels';
+import { Composer, MessageList, useChat } from '@/features/chat';
+import { ModelPicker, useModels } from '@/features/models';
+import type { BackendKey } from '@/shared/config/backends';
 
-// 页面组装: 状态逻辑在hooks里,显示在components里,这里只负责把它们连起来
+// 页面组装: 各功能之间互不引用,由这里把它们组合起来
 export default function App() {
   const [backend, setBackend] = useState<BackendKey>('openrouter');
   const { models, model, setModel, error: modelsError } = useModels(backend);
@@ -14,16 +11,20 @@ export default function App() {
 
   return (
     <div className="app">
-      <ChatHeader
-        backend={backend}
-        onBackendChange={setBackend}
-        models={models}
-        model={model}
-        onModelChange={setModel}
-        disabled={isStreaming}
-        canReset={messages.length > 0}
-        onReset={reset}
-      />
+      <header className="header">
+        <h1>AI Chat Demo</h1>
+        <div className="selectors">
+          <ModelPicker
+            backend={backend}
+            onBackendChange={setBackend}
+            models={models}
+            model={model}
+            onModelChange={setModel}
+            disabled={isStreaming}
+          />
+          <button onClick={reset} disabled={messages.length === 0}>新对话</button>
+        </div>
+      </header>
       {modelsError && <div className="notice">无法获取模型列表({modelsError}),请确认后端已启动</div>}
       <MessageList messages={messages} isStreaming={isStreaming} />
       <Composer isStreaming={isStreaming} canSend={model !== ''} onSend={send} onStop={stop} />

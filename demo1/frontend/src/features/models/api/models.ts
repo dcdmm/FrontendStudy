@@ -1,5 +1,5 @@
-import type { BackendKey } from '../config/backends';
-import { request } from './http';
+import type { BackendKey } from '@/shared/config/backends';
+import { request } from '@/shared/api/http';
 
 export type ModelsResponse = { models: string[]; default: string };
 

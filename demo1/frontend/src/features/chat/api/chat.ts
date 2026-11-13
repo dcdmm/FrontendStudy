@@ -1,7 +1,7 @@
-import type { BackendKey } from '../config/backends';
-import type { ChatMessage } from '../types/chat';
-import { request } from './http';
-import { readSse } from './sse';
+import type { BackendKey } from '@/shared/config/backends';
+import type { ChatMessage } from '../types';
+import { request } from '@/shared/api/http';
+import { readSse } from '@/shared/api/sse';
 
 type StreamChatOptions = {
   backend: BackendKey;

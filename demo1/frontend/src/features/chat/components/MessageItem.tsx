@@ -1,4 +1,4 @@
-import type { UiMessage } from '../types/chat';
+import type { UiMessage } from '../types';
 
 type Props = {
   message: UiMessage;

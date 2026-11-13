@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { streamChat } from '../api/chat';
-import type { BackendKey } from '../config/backends';
-import type { ChatMessage, UiMessage } from '../types/chat';
-import { getErrorMessage } from '../utils/error';
+import type { BackendKey } from '@/shared/config/backends';
+import type { ChatMessage, UiMessage } from '../types';
+import { getErrorMessage } from '@/shared/utils/error';
 
 // 聊天的状态和操作都在这里,组件只负责显示
 export function useChat(backend: BackendKey, model: string) {

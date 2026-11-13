@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { UiMessage } from '../types/chat';
+import type { UiMessage } from '../types';
 import { MessageItem } from './MessageItem';
 
 type Props = {
