@@ -21,5 +21,8 @@ uv run uvicorn main:app --reload --port 8000
 ```bash
 # 前端
 cd frontend
+
 npm install
+
+npm run dev 
 ```

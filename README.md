@@ -1,7 +1,7 @@
 # FrontendAIStudy
 
+### 命令参考
 
-命令参考
-前端: demo0\README.md
-后端: demo1\README.md
-一般: study_TypeScript\README.md
+- 前端项目(Vite + React): [demo0/README.md](demo0/README.md)
+- Node.js后端项目: [demo1/README.md](demo1/README.md)
+- npm依赖管理、TS运行与检查: [study_TypeScript/README.md](study_TypeScript/README.md)
