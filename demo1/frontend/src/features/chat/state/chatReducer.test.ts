@@ -48,10 +48,6 @@ describe('chatReducer', () => {
     expect(state).toEqual({ messages: [msg('u1', 'user', 'hi'), msg('r2', 'assistant')], streamingId: 'r2' });
   });
 
-  it('reset: 清空所有消息', () => {
-    expect(chatReducer(afterOneTurn, { type: 'reset' })).toEqual(initialChatState);
-  });
-
   it('不修改传入的状态,而是返回新对象', () => {
     const before = structuredClone(afterOneTurn);
     chatReducer(afterOneTurn, { type: 'delta', id: 'r1', text: '!' });

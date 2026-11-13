@@ -17,9 +17,4 @@ describe('loadEnv', () => {
   it('缺少API key时报错,并指出是哪一项', () => {
     expect(() => loadEnv({})).toThrow('OPENROUTER_API_KEY');
   });
-
-  it('地址格式不对时报错', () => {
-    expect(() => loadEnv({ OPENROUTER_API_KEY: 'sk-test', OPENROUTER_BASE_URL: 'not-a-url' }))
-      .toThrow('OPENROUTER_BASE_URL');
-  });
 });

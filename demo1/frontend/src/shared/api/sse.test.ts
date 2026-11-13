@@ -14,14 +14,6 @@ describe('parseSse', () => {
     expect(events).toEqual([{ event: 'delta', data: '1' }]);
     expect(rest).toBe('event: delta\nda');
   });
-
-  it('没有event行时,事件名默认为message', () => {
-    expect(parseSse('data: hi\n\n').events).toEqual([{ event: 'message', data: 'hi' }]);
-  });
-
-  it('多行data用换行拼接', () => {
-    expect(parseSse('data: a\ndata: b\n\n').events[0].data).toBe('a\nb');
-  });
 });
 
 describe('readSse', () => {

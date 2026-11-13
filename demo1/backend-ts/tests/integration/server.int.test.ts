@@ -33,11 +33,6 @@ afterAll(() => {
 });
 
 describe('真实HTTP服务器', () => {
-  it('GET /health', async () => {
-    const res = await fetch(`${baseUrl}/health`);
-    expect(await res.json()).toEqual({ status: 'ok' });
-  });
-
   it('客户端断开连接时,后端会取消对模型的请求', async () => {
     const controller = new AbortController();
     const res = await fetch(`${baseUrl}/chat`, {

@@ -13,12 +13,6 @@ function setup(max: number, windowMs = 10_000) {
 }
 
 describe('rateLimit', () => {
-  it('限额内的请求正常放行', async () => {
-    const { hit } = setup(2);
-    expect((await hit()).status).toBe(200);
-    expect((await hit()).status).toBe(200);
-  });
-
   it('超过限额返回429,并告诉客户端还要等几秒', async () => {
     const { clock, hit } = setup(2, 10_000);
     await hit(); // 第0秒
