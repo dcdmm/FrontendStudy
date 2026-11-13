@@ -24,5 +24,10 @@ cd frontend
 
 npm install
 
-npm run dev 
+npm run type-check  
+npm run lint 
+
+npm run dev  # 启动本地开发服务器(热更新)
+npm run build  # 打包构建生产版本(代码压缩、优化到dist文件夹)
+npm run preview  # 本地预览build产物
 ```
