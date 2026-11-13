@@ -5,7 +5,10 @@
 npx tsx file.ts               # 运行一次,执行完自动退出;改了代码需重新敲命令
 
 # 类型检查
-npx tsc --noEmit              # 检查整个目录
+npx tsc --noEmit             
+
+# 代码规范检查(不查类型)
+npx eslint <目录>          
 
 # 依赖管理
 npm install                   # 安装package.json中的全部依赖

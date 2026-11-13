@@ -2,8 +2,11 @@
   "name": "study_typescript",
   "private": true,
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.2",
+    "eslint": "^10.14.0",
     "tsx": "^4.23.15",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2"
   }
 }
