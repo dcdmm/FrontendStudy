@@ -2,8 +2,10 @@ import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { streamSSE } from 'hono/streaming';
 import { zValidator } from '@hono/zod-validator';
+import { LIMITS } from '../config/limits.js';
 import type { ModelsConfig } from '../config/models.js';
 import { chatRequestSchema } from '../schemas/chat.js';
+import { trimHistory } from '../services/context.js';
 import type { LlmService } from '../services/llm.js';
 
 export function chatRoute(models: ModelsConfig, llm: LlmService) {
@@ -21,6 +23,7 @@ export function chatRoute(models: ModelsConfig, llm: LlmService) {
       if (!models.models.includes(model)) {
         throw new HTTPException(400, { message: `model ${model} not in allow-list` });
       }
+      const context = trimHistory(messages, LIMITS.maxContextChars);
 
       return streamSSE(c, async (stream) => {
         // 前端点"停止"断开连接时,同时取消对模型的请求(不再消耗token)
@@ -28,7 +31,7 @@ export function chatRoute(models: ModelsConfig, llm: LlmService) {
         stream.onAbort(() => controller.abort());
 
         try {
-          for await (const text of llm.streamText(model, messages, controller.signal)) {
+          for await (const text of llm.streamText(model, context, controller.signal)) {
             await stream.writeSSE({ event: 'delta', data: JSON.stringify({ text }) });
           }
         } catch (err) {

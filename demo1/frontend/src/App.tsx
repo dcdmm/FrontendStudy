@@ -7,7 +7,7 @@ import type { BackendKey } from '@/shared/config/backends';
 export default function App() {
   const [backend, setBackend] = useState<BackendKey>('openrouter');
   const { models, model, setModel, error: modelsError } = useModels(backend);
-  const { messages, isStreaming, send, stop, reset } = useChat(backend, model);
+  const { messages, isStreaming, canRegenerate, send, regenerate, stop, reset } = useChat(backend, model);
 
   return (
     <div className="app">
@@ -25,8 +25,13 @@ export default function App() {
           <button onClick={reset} disabled={messages.length === 0}>新对话</button>
         </div>
       </header>
-      {modelsError && <div className="notice">无法获取模型列表({modelsError}),请确认后端已启动</div>}
-      <MessageList messages={messages} isStreaming={isStreaming} />
+      {modelsError && <div className="notice">无法获取模型列表: {modelsError}</div>}
+      <MessageList
+        messages={messages}
+        isStreaming={isStreaming}
+        canRegenerate={canRegenerate}
+        onRegenerate={regenerate}
+      />
       <Composer isStreaming={isStreaming} canSend={model !== ''} onSend={send} onStop={stop} />
     </div>
   );

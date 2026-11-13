@@ -5,9 +5,11 @@ import { MessageItem } from './MessageItem';
 type Props = {
   messages: UiMessage[];
   isStreaming: boolean;
+  canRegenerate: boolean;
+  onRegenerate: () => void;
 };
 
-export function MessageList({ messages, isStreaming }: Props) {
+export function MessageList({ messages, isStreaming, canRegenerate, onRegenerate }: Props) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // 有新内容时自动滚动到底部
@@ -21,6 +23,7 @@ export function MessageList({ messages, isStreaming }: Props) {
       {messages.map((m, i) => (
         <MessageItem key={m.id} message={m} pending={isStreaming && i === messages.length - 1} />
       ))}
+      {canRegenerate && <button className="regenerate" onClick={onRegenerate}>重新生成</button>}
       <div ref={bottomRef} />
     </main>
   );
